@@ -1,0 +1,75 @@
+#include<avr/io.h>
+#include<util/delay.h>
+void lcmd(char);
+void ldata(char);
+void main()
+{
+DDRD=0XFF;
+DDRC=0XFF;
+DDRB=0X00;
+int i,j,k,l;
+i=0;
+j=0;
+k=0;
+l=0;
+								lcmd(0x38);
+								lcmd(0x06);
+								lcmd(0x01);
+								lcmd(0x0e);
+lcmd(0x80);
+
+ldata('A');
+ldata('=');
+ldata(i+48);
+																lcmd(0x88);
+																ldata('B');
+																ldata('=');
+																ldata(j+48);
+lcmd(0xc0);
+ldata('C');
+ldata('=');
+ldata(k+48);
+																lcmd(0xc8);
+																ldata('D');
+																ldata('=');
+																ldata(l+48);
+
+while(1)
+{	
+if(PINB&0x01)
+{lcmd(0x84);
+ldata((++i)+48);
+while(PINB&0x01);
+}
+													if(PINB&0x02)
+													{	lcmd(0x8B);
+														ldata((++j)+48);
+														while(PINB&0x02);
+													}
+	if(PINB&0X04)
+	{	lcmd(0xc4);
+		ldata((++k)+48);
+		while(PINB&0x04);
+	}
+													if(PINB&0X08)
+													{	lcmd(0xcB);
+														ldata((++l)+48);
+														while(PINB&0x08);	
+													}
+}
+}
+void lcmd(char x)
+{
+PORTD=x;
+PORTC=0x04;
+_delay_ms(50);
+PORTC=0;
+}
+void ldata(char x)
+{
+PORTD=x;
+PORTC=0x05;
+_delay_ms(50);
+PORTC=0x01;
+}
+

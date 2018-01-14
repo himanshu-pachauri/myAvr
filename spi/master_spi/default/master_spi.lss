@@ -1,0 +1,217 @@
+
+master_spi.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000cc  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  000000cc  00000140  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .debug_aranges 00000020  00000000  00000000  0000014a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_pubnames 00000024  00000000  00000000  0000016a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   0000018a  00000000  00000000  0000018e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000121  00000000  00000000  00000318  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   0000018b  00000000  00000000  00000439  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000030  00000000  00000000  000005c4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000000e7  00000000  00000000  000005f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    00000070  00000000  00000000  000006db  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000048  00000000  00000000  0000074b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	24 c0       	rjmp	.+72     	; 0x4c <__bad_interrupt>
+   4:	23 c0       	rjmp	.+70     	; 0x4c <__bad_interrupt>
+   6:	22 c0       	rjmp	.+68     	; 0x4c <__bad_interrupt>
+   8:	21 c0       	rjmp	.+66     	; 0x4c <__bad_interrupt>
+   a:	20 c0       	rjmp	.+64     	; 0x4c <__bad_interrupt>
+   c:	1f c0       	rjmp	.+62     	; 0x4c <__bad_interrupt>
+   e:	1e c0       	rjmp	.+60     	; 0x4c <__bad_interrupt>
+  10:	1d c0       	rjmp	.+58     	; 0x4c <__bad_interrupt>
+  12:	1c c0       	rjmp	.+56     	; 0x4c <__bad_interrupt>
+  14:	1b c0       	rjmp	.+54     	; 0x4c <__bad_interrupt>
+  16:	1a c0       	rjmp	.+52     	; 0x4c <__bad_interrupt>
+  18:	19 c0       	rjmp	.+50     	; 0x4c <__bad_interrupt>
+  1a:	18 c0       	rjmp	.+48     	; 0x4c <__bad_interrupt>
+  1c:	17 c0       	rjmp	.+46     	; 0x4c <__bad_interrupt>
+  1e:	16 c0       	rjmp	.+44     	; 0x4c <__bad_interrupt>
+  20:	15 c0       	rjmp	.+42     	; 0x4c <__bad_interrupt>
+  22:	14 c0       	rjmp	.+40     	; 0x4c <__bad_interrupt>
+  24:	13 c0       	rjmp	.+38     	; 0x4c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	ec ec       	ldi	r30, 0xCC	; 204
+  3a:	f0 e0       	ldi	r31, 0x00	; 0
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <.do_copy_data_start>
+
+0000003e <.do_copy_data_loop>:
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+
+00000042 <.do_copy_data_start>:
+  42:	aa 36       	cpi	r26, 0x6A	; 106
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <.do_copy_data_loop>
+  48:	12 d0       	rcall	.+36     	; 0x6e <main>
+  4a:	3e c0       	rjmp	.+124    	; 0xc8 <_exit>
+
+0000004c <__bad_interrupt>:
+  4c:	d9 cf       	rjmp	.-78     	; 0x0 <__vectors>
+
+0000004e <lstr>:
+
+
+
+}
+void lstr(unsigned char *p)
+{while(*p!=0)
+  4e:	fc 01       	movw	r30, r24
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  50:	24 ec       	ldi	r18, 0xC4	; 196
+  52:	39 e0       	ldi	r19, 0x09	; 9
+  54:	08 c0       	rjmp	.+16     	; 0x66 <lstr+0x18>
+{
+SPDR=*p;
+  56:	8f b9       	out	0x0f, r24	; 15
+while((SPSR&(1<<SPIF))==0);
+  58:	77 9b       	sbis	0x0e, 7	; 14
+  5a:	fe cf       	rjmp	.-4      	; 0x58 <lstr+0xa>
+SPSR|=(1<<SPIF);
+  5c:	77 9a       	sbi	0x0e, 7	; 14
+  5e:	c9 01       	movw	r24, r18
+  60:	01 97       	sbiw	r24, 0x01	; 1
+  62:	f1 f7       	brne	.-4      	; 0x60 <lstr+0x12>
+_delay_ms(10);
+p++;
+  64:	31 96       	adiw	r30, 0x01	; 1
+
+
+
+}
+void lstr(unsigned char *p)
+{while(*p!=0)
+  66:	80 81       	ld	r24, Z
+  68:	88 23       	and	r24, r24
+  6a:	a9 f7       	brne	.-22     	; 0x56 <lstr+0x8>
+while((SPSR&(1<<SPIF))==0);
+SPSR|=(1<<SPIF);
+_delay_ms(10);
+p++;
+
+}}
+  6c:	08 95       	ret
+
+0000006e <main>:
+///////___-----master
+#include<avr/io.h>
+#include<util/delay.h>
+void lstr(unsigned char*);
+void main()
+{unsigned char a[10]="Himanshu";
+  6e:	df 93       	push	r29
+  70:	cf 93       	push	r28
+  72:	cd b7       	in	r28, 0x3d	; 61
+  74:	de b7       	in	r29, 0x3e	; 62
+  76:	2a 97       	sbiw	r28, 0x0a	; 10
+  78:	0f b6       	in	r0, 0x3f	; 63
+  7a:	f8 94       	cli
+  7c:	de bf       	out	0x3e, r29	; 62
+  7e:	0f be       	out	0x3f, r0	; 63
+  80:	cd bf       	out	0x3d, r28	; 61
+
+DDRB=(1<<2)|(1<<3)|(1<<5)|(0<<4);
+  82:	8c e2       	ldi	r24, 0x2C	; 44
+  84:	87 bb       	out	0x17, r24	; 23
+SPCR=(1<<SPE)|(1<<MSTR)|(1<<DORD);
+  86:	80 e7       	ldi	r24, 0x70	; 112
+  88:	8d b9       	out	0x0d, r24	; 13
+  8a:	80 e5       	ldi	r24, 0x50	; 80
+  8c:	93 ec       	ldi	r25, 0xC3	; 195
+  8e:	29 e1       	ldi	r18, 0x19	; 25
+  90:	30 e0       	ldi	r19, 0x00	; 0
+  92:	f9 01       	movw	r30, r18
+  94:	31 97       	sbiw	r30, 0x01	; 1
+  96:	f1 f7       	brne	.-4      	; 0x94 <main+0x26>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  98:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  9a:	d9 f7       	brne	.-10     	; 0x92 <main+0x24>
+///////___-----master
+#include<avr/io.h>
+#include<util/delay.h>
+void lstr(unsigned char*);
+void main()
+{unsigned char a[10]="Himanshu";
+  9c:	de 01       	movw	r26, r28
+  9e:	11 96       	adiw	r26, 0x01	; 1
+  a0:	e0 e6       	ldi	r30, 0x60	; 96
+  a2:	f0 e0       	ldi	r31, 0x00	; 0
+  a4:	89 e0       	ldi	r24, 0x09	; 9
+  a6:	01 90       	ld	r0, Z+
+  a8:	0d 92       	st	X+, r0
+  aa:	81 50       	subi	r24, 0x01	; 1
+  ac:	e1 f7       	brne	.-8      	; 0xa6 <main+0x38>
+  ae:	1a 86       	std	Y+10, r1	; 0x0a
+
+DDRB=(1<<2)|(1<<3)|(1<<5)|(0<<4);
+SPCR=(1<<SPE)|(1<<MSTR)|(1<<DORD);
+_delay_ms(5000);
+lstr(a);
+  b0:	ce 01       	movw	r24, r28
+  b2:	01 96       	adiw	r24, 0x01	; 1
+  b4:	cc df       	rcall	.-104    	; 0x4e <lstr>
+
+
+
+}
+  b6:	2a 96       	adiw	r28, 0x0a	; 10
+  b8:	0f b6       	in	r0, 0x3f	; 63
+  ba:	f8 94       	cli
+  bc:	de bf       	out	0x3e, r29	; 62
+  be:	0f be       	out	0x3f, r0	; 63
+  c0:	cd bf       	out	0x3d, r28	; 61
+  c2:	cf 91       	pop	r28
+  c4:	df 91       	pop	r29
+  c6:	08 95       	ret
+
+000000c8 <_exit>:
+  c8:	f8 94       	cli
+
+000000ca <__stop_program>:
+  ca:	ff cf       	rjmp	.-2      	; 0xca <__stop_program>

@@ -1,0 +1,335 @@
+
+master_.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000112  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000004  00800060  00000112  00000186  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .debug_aranges 00000020  00000000  00000000  0000018a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_pubnames 00000050  00000000  00000000  000001aa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   000002be  00000000  00000000  000001fa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000191  00000000  00000000  000004b8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000002bb  00000000  00000000  00000649  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000070  00000000  00000000  00000904  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    00000108  00000000  00000000  00000974  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    000000b0  00000000  00000000  00000a7c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000090  00000000  00000000  00000b2c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	24 c0       	rjmp	.+72     	; 0x4c <__bad_interrupt>
+   4:	23 c0       	rjmp	.+70     	; 0x4c <__bad_interrupt>
+   6:	22 c0       	rjmp	.+68     	; 0x4c <__bad_interrupt>
+   8:	21 c0       	rjmp	.+66     	; 0x4c <__bad_interrupt>
+   a:	20 c0       	rjmp	.+64     	; 0x4c <__bad_interrupt>
+   c:	1f c0       	rjmp	.+62     	; 0x4c <__bad_interrupt>
+   e:	1e c0       	rjmp	.+60     	; 0x4c <__bad_interrupt>
+  10:	1d c0       	rjmp	.+58     	; 0x4c <__bad_interrupt>
+  12:	1c c0       	rjmp	.+56     	; 0x4c <__bad_interrupt>
+  14:	1b c0       	rjmp	.+54     	; 0x4c <__bad_interrupt>
+  16:	1a c0       	rjmp	.+52     	; 0x4c <__bad_interrupt>
+  18:	19 c0       	rjmp	.+50     	; 0x4c <__bad_interrupt>
+  1a:	18 c0       	rjmp	.+48     	; 0x4c <__bad_interrupt>
+  1c:	17 c0       	rjmp	.+46     	; 0x4c <__bad_interrupt>
+  1e:	16 c0       	rjmp	.+44     	; 0x4c <__bad_interrupt>
+  20:	15 c0       	rjmp	.+42     	; 0x4c <__bad_interrupt>
+  22:	14 c0       	rjmp	.+40     	; 0x4c <__bad_interrupt>
+  24:	13 c0       	rjmp	.+38     	; 0x4c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	e2 e1       	ldi	r30, 0x12	; 18
+  3a:	f1 e0       	ldi	r31, 0x01	; 1
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <.do_copy_data_start>
+
+0000003e <.do_copy_data_loop>:
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+
+00000042 <.do_copy_data_start>:
+  42:	a4 36       	cpi	r26, 0x64	; 100
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <.do_copy_data_loop>
+  48:	1d d0       	rcall	.+58     	; 0x84 <main>
+  4a:	61 c0       	rjmp	.+194    	; 0x10e <_exit>
+
+0000004c <__bad_interrupt>:
+  4c:	d9 cf       	rjmp	.-78     	; 0x0 <__vectors>
+
+0000004e <spiMinti>:
+}
+
+
+}
+void spiMinti(void)
+{DDRB=(1<<2)|(1<<3)|(0<<4)|(1<<5);
+  4e:	8c e2       	ldi	r24, 0x2C	; 44
+  50:	87 bb       	out	0x17, r24	; 23
+SPCR|=(1<<SPE)|(1<<DORD)|(1<<MSTR)|(1<<CPHA);
+  52:	8d b1       	in	r24, 0x0d	; 13
+  54:	84 67       	ori	r24, 0x74	; 116
+  56:	8d b9       	out	0x0d, r24	; 13
+}
+  58:	08 95       	ret
+
+0000005a <spi>:
+void spi(unsigned char x)
+{SPDR=x;
+  5a:	8f b9       	out	0x0f, r24	; 15
+while((SPSR&(1<<SPIF))==0);
+  5c:	77 9b       	sbis	0x0e, 7	; 14
+  5e:	fe cf       	rjmp	.-4      	; 0x5c <spi+0x2>
+//ldata(SPDR);
+SPSR|=(1<<SPIF);
+  60:	77 9a       	sbi	0x0e, 7	; 14
+
+}
+  62:	08 95       	ret
+
+00000064 <lstr1>:
+void lstr1(unsigned char *p)
+{while(*p!=0)
+  64:	fc 01       	movw	r30, r24
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  66:	24 ec       	ldi	r18, 0xC4	; 196
+  68:	39 e0       	ldi	r19, 0x09	; 9
+  6a:	08 c0       	rjmp	.+16     	; 0x7c <lstr1+0x18>
+void spiMinti(void)
+{DDRB=(1<<2)|(1<<3)|(0<<4)|(1<<5);
+SPCR|=(1<<SPE)|(1<<DORD)|(1<<MSTR)|(1<<CPHA);
+}
+void spi(unsigned char x)
+{SPDR=x;
+  6c:	8f b9       	out	0x0f, r24	; 15
+while((SPSR&(1<<SPIF))==0);
+  6e:	77 9b       	sbis	0x0e, 7	; 14
+  70:	fe cf       	rjmp	.-4      	; 0x6e <lstr1+0xa>
+//ldata(SPDR);
+SPSR|=(1<<SPIF);
+  72:	77 9a       	sbi	0x0e, 7	; 14
+  74:	c9 01       	movw	r24, r18
+  76:	01 97       	sbiw	r24, 0x01	; 1
+  78:	f1 f7       	brne	.-4      	; 0x76 <lstr1+0x12>
+void lstr1(unsigned char *p)
+{while(*p!=0)
+{
+spi(*p);
+_delay_ms(10);
+p++;
+  7a:	31 96       	adiw	r30, 0x01	; 1
+//ldata(SPDR);
+SPSR|=(1<<SPIF);
+
+}
+void lstr1(unsigned char *p)
+{while(*p!=0)
+  7c:	80 81       	ld	r24, Z
+  7e:	88 23       	and	r24, r24
+  80:	a9 f7       	brne	.-22     	; 0x6c <lstr1+0x8>
+{
+spi(*p);
+_delay_ms(10);
+p++;
+}
+}
+  82:	08 95       	ret
+
+00000084 <main>:
+void spi(unsigned char x);
+void spiMinti(void);
+void lstr1(unsigned char *p);
+void  main()
+{int x;
+DDRC&=0XF8;
+  84:	84 b3       	in	r24, 0x14	; 20
+  86:	88 7f       	andi	r24, 0xF8	; 248
+  88:	84 bb       	out	0x14, r24	; 20
+DDRD|=0XE0;
+  8a:	81 b3       	in	r24, 0x11	; 17
+  8c:	80 6e       	ori	r24, 0xE0	; 224
+  8e:	81 bb       	out	0x11, r24	; 17
+DDRB=(1<<2)|(1<<3)|(0<<4)|(1<<5);
+  90:	8c e2       	ldi	r24, 0x2C	; 44
+  92:	87 bb       	out	0x17, r24	; 23
+SPCR=(1<<SPE)|(1<<DORD)|(1<<MSTR)|(0<<SPR0)|(0<<SPR1)|(0<<CPHA);
+  94:	80 e7       	ldi	r24, 0x70	; 112
+  96:	8d b9       	out	0x0d, r24	; 13
+  98:	88 ea       	ldi	r24, 0xA8	; 168
+  9a:	91 e6       	ldi	r25, 0x61	; 97
+  9c:	01 97       	sbiw	r24, 0x01	; 1
+  9e:	f1 f7       	brne	.-4      	; 0x9c <main+0x18>
+_delay_ms(100);
+lstr1("OK");
+  a0:	80 e6       	ldi	r24, 0x60	; 96
+  a2:	90 e0       	ldi	r25, 0x00	; 0
+  a4:	df df       	rcall	.-66     	; 0x64 <lstr1>
+
+UCSRB=(1<<RXEN)|(1<<TXEN);
+  a6:	88 e1       	ldi	r24, 0x18	; 24
+  a8:	8a b9       	out	0x0a, r24	; 10
+UCSRC|=(1<<URSEL);
+  aa:	80 b5       	in	r24, 0x20	; 32
+  ac:	80 68       	ori	r24, 0x80	; 128
+  ae:	80 bd       	out	0x20, r24	; 32
+UBRRH=0X00;
+  b0:	10 bc       	out	0x20, r1	; 32
+UBRRL=51;
+  b2:	83 e3       	ldi	r24, 0x33	; 51
+  b4:	89 b9       	out	0x09, r24	; 9
+  b6:	80 e1       	ldi	r24, 0x10	; 16
+  b8:	97 e2       	ldi	r25, 0x27	; 39
+  ba:	29 e1       	ldi	r18, 0x19	; 25
+  bc:	30 e0       	ldi	r19, 0x00	; 0
+  be:	f9 01       	movw	r30, r18
+  c0:	31 97       	sbiw	r30, 0x01	; 1
+  c2:	f1 f7       	brne	.-4      	; 0xc0 <main+0x3c>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  c4:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  c6:	d9 f7       	brne	.-10     	; 0xbe <main+0x3a>
+
+_delay_ms(1000);
+while(1)
+{
+x=PINC&0X07;
+  c8:	83 b3       	in	r24, 0x13	; 19
+PORTD=(x<<5);
+  ca:	82 95       	swap	r24
+  cc:	88 0f       	add	r24, r24
+  ce:	80 7e       	andi	r24, 0xE0	; 224
+  d0:	82 bb       	out	0x12, r24	; 18
+while((UCSRA&(1<<RXC))==0X00);
+  d2:	5f 9b       	sbis	0x0b, 7	; 11
+  d4:	fe cf       	rjmp	.-4      	; 0xd2 <main+0x4e>
+spi(UDR);
+  d6:	8c b1       	in	r24, 0x0c	; 12
+void spiMinti(void)
+{DDRB=(1<<2)|(1<<3)|(0<<4)|(1<<5);
+SPCR|=(1<<SPE)|(1<<DORD)|(1<<MSTR)|(1<<CPHA);
+}
+void spi(unsigned char x)
+{SPDR=x;
+  d8:	8f b9       	out	0x0f, r24	; 15
+while((SPSR&(1<<SPIF))==0);
+  da:	77 9b       	sbis	0x0e, 7	; 14
+  dc:	fe cf       	rjmp	.-4      	; 0xda <main+0x56>
+//ldata(SPDR);
+SPSR|=(1<<SPIF);
+  de:	77 9a       	sbi	0x0e, 7	; 14
+{
+x=PINC&0X07;
+PORTD=(x<<5);
+while((UCSRA&(1<<RXC))==0X00);
+spi(UDR);
+UCSRA|=0x80;
+  e0:	5f 9a       	sbi	0x0b, 7	; 11
+  e2:	f2 cf       	rjmp	.-28     	; 0xc8 <main+0x44>
+
+000000e4 <vtstr2>:
+_delay_ms(10);
+p++;
+}
+}
+void vtstr2(unsigned char *p)
+{while(*p!=0)
+  e4:	fc 01       	movw	r30, r24
+  e6:	24 ec       	ldi	r18, 0xC4	; 196
+  e8:	39 e0       	ldi	r19, 0x09	; 9
+  ea:	08 c0       	rjmp	.+16     	; 0xfc <vtstr2+0x18>
+p++;
+}
+}
+void vtdisp(unsigned char x)
+{
+UDR=x;
+  ec:	8c b9       	out	0x0c, r24	; 12
+while((UCSRA&(1<<TXC))==0X00);
+  ee:	5e 9b       	sbis	0x0b, 6	; 11
+  f0:	fe cf       	rjmp	.-4      	; 0xee <vtstr2+0xa>
+
+UCSRA|=0x40;
+  f2:	5e 9a       	sbi	0x0b, 6	; 11
+  f4:	c9 01       	movw	r24, r18
+  f6:	01 97       	sbiw	r24, 0x01	; 1
+  f8:	f1 f7       	brne	.-4      	; 0xf6 <vtstr2+0x12>
+void vtstr2(unsigned char *p)
+{while(*p!=0)
+{
+vtdisp(*p);
+_delay_ms(10);
+p++;
+  fa:	31 96       	adiw	r30, 0x01	; 1
+_delay_ms(10);
+p++;
+}
+}
+void vtstr2(unsigned char *p)
+{while(*p!=0)
+  fc:	80 81       	ld	r24, Z
+  fe:	88 23       	and	r24, r24
+ 100:	a9 f7       	brne	.-22     	; 0xec <vtstr2+0x8>
+{
+vtdisp(*p);
+_delay_ms(10);
+p++;
+}
+}
+ 102:	08 95       	ret
+
+00000104 <vtdisp>:
+void vtdisp(unsigned char x)
+{
+UDR=x;
+ 104:	8c b9       	out	0x0c, r24	; 12
+while((UCSRA&(1<<TXC))==0X00);
+ 106:	5e 9b       	sbis	0x0b, 6	; 11
+ 108:	fe cf       	rjmp	.-4      	; 0x106 <vtdisp+0x2>
+
+UCSRA|=0x40;
+ 10a:	5e 9a       	sbi	0x0b, 6	; 11
+}
+ 10c:	08 95       	ret
+
+0000010e <_exit>:
+ 10e:	f8 94       	cli
+
+00000110 <__stop_program>:
+ 110:	ff cf       	rjmp	.-2      	; 0x110 <__stop_program>

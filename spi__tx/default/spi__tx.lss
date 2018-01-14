@@ -1,0 +1,124 @@
+
+spi__tx.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000066  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000000ba  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000001b  00000000  00000000  000000da  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   00000117  00000000  00000000  000000f5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 000000b2  00000000  00000000  0000020c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000148  00000000  00000000  000002be  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000020  00000000  00000000  00000408  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000d8  00000000  00000000  00000428  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00000018  00000000  00000000  00000500  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	19 c0       	rjmp	.+50     	; 0x36 <__bad_interrupt>
+   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
+   8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
+   a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
+   c:	14 c0       	rjmp	.+40     	; 0x36 <__bad_interrupt>
+   e:	13 c0       	rjmp	.+38     	; 0x36 <__bad_interrupt>
+  10:	12 c0       	rjmp	.+36     	; 0x36 <__bad_interrupt>
+  12:	11 c0       	rjmp	.+34     	; 0x36 <__bad_interrupt>
+  14:	10 c0       	rjmp	.+32     	; 0x36 <__bad_interrupt>
+  16:	0f c0       	rjmp	.+30     	; 0x36 <__bad_interrupt>
+  18:	0e c0       	rjmp	.+28     	; 0x36 <__bad_interrupt>
+  1a:	0d c0       	rjmp	.+26     	; 0x36 <__bad_interrupt>
+  1c:	0c c0       	rjmp	.+24     	; 0x36 <__bad_interrupt>
+  1e:	0b c0       	rjmp	.+22     	; 0x36 <__bad_interrupt>
+  20:	0a c0       	rjmp	.+20     	; 0x36 <__bad_interrupt>
+  22:	09 c0       	rjmp	.+18     	; 0x36 <__bad_interrupt>
+  24:	08 c0       	rjmp	.+16     	; 0x36 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+  32:	02 d0       	rcall	.+4      	; 0x38 <main>
+  34:	16 c0       	rjmp	.+44     	; 0x62 <_exit>
+
+00000036 <__bad_interrupt>:
+  36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
+
+00000038 <main>:
+#include<avr/io.h>
+#include<util/delay.h>
+void main()
+{DDRD=(1<<5)|(1<<3);//,MOSI AS OUTPUT&SCK|AS A OUTPUT
+  38:	88 e2       	ldi	r24, 0x28	; 40
+  3a:	81 bb       	out	0x11, r24	; 17
+
+DDRD=0xff;//PORTD AS A OUTPUT
+  3c:	8f ef       	ldi	r24, 0xFF	; 255
+  3e:	81 bb       	out	0x11, r24	; 17
+DDRC=0xff;//PORTC AS A OUTPUT
+  40:	84 bb       	out	0x14, r24	; 20
+  42:	80 e1       	ldi	r24, 0x10	; 16
+  44:	97 e2       	ldi	r25, 0x27	; 39
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  46:	29 e1       	ldi	r18, 0x19	; 25
+  48:	30 e0       	ldi	r19, 0x00	; 0
+  4a:	f9 01       	movw	r30, r18
+  4c:	31 97       	sbiw	r30, 0x01	; 1
+  4e:	f1 f7       	brne	.-4      	; 0x4c <__SREG__+0xd>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  50:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  52:	d9 f7       	brne	.-10     	; 0x4a <__SREG__+0xb>
+_delay_ms(1000);
+SPCR=(1<<SPE)|(1<<MSTR)|(1<<SPR0);
+  54:	81 e5       	ldi	r24, 0x51	; 81
+  56:	8d b9       	out	0x0d, r24	; 13
+SPDR='A';
+  58:	81 e4       	ldi	r24, 0x41	; 65
+  5a:	8f b9       	out	0x0f, r24	; 15
+while(SPSR&(1<<SPIF)==0);
+  5c:	8e b1       	in	r24, 0x0e	; 14
+SPSR|=1<<SPIF;
+  5e:	77 9a       	sbi	0x0e, 7	; 14
+
+
+
+
+
+}
+  60:	08 95       	ret
+
+00000062 <_exit>:
+  62:	f8 94       	cli
+
+00000064 <__stop_program>:
+  64:	ff cf       	rjmp	.-2      	; 0x64 <__stop_program>

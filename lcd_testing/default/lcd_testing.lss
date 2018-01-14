@@ -1,0 +1,203 @@
+
+lcd_testing.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000ba  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  0000010e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000002e  00000000  00000000  0000012e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   000001c9  00000000  00000000  0000015c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 000000e1  00000000  00000000  00000325  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000222  00000000  00000000  00000406  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000040  00000000  00000000  00000628  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000eb  00000000  00000000  00000668  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    0000006e  00000000  00000000  00000753  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	19 c0       	rjmp	.+50     	; 0x36 <__bad_interrupt>
+   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
+   8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
+   a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
+   c:	14 c0       	rjmp	.+40     	; 0x36 <__bad_interrupt>
+   e:	13 c0       	rjmp	.+38     	; 0x36 <__bad_interrupt>
+  10:	12 c0       	rjmp	.+36     	; 0x36 <__bad_interrupt>
+  12:	11 c0       	rjmp	.+34     	; 0x36 <__bad_interrupt>
+  14:	10 c0       	rjmp	.+32     	; 0x36 <__bad_interrupt>
+  16:	0f c0       	rjmp	.+30     	; 0x36 <__bad_interrupt>
+  18:	0e c0       	rjmp	.+28     	; 0x36 <__bad_interrupt>
+  1a:	0d c0       	rjmp	.+26     	; 0x36 <__bad_interrupt>
+  1c:	0c c0       	rjmp	.+24     	; 0x36 <__bad_interrupt>
+  1e:	0b c0       	rjmp	.+22     	; 0x36 <__bad_interrupt>
+  20:	0a c0       	rjmp	.+20     	; 0x36 <__bad_interrupt>
+  22:	09 c0       	rjmp	.+18     	; 0x36 <__bad_interrupt>
+  24:	08 c0       	rjmp	.+16     	; 0x36 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+  32:	18 d0       	rcall	.+48     	; 0x64 <main>
+  34:	40 c0       	rjmp	.+128    	; 0xb6 <_exit>
+
+00000036 <__bad_interrupt>:
+  36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
+
+00000038 <ldata>:
+
+
+}
+void ldata(unsigned char x)
+{
+data=x;									//define data PORT for data input -----------
+  38:	88 bb       	out	0x18, r24	; 24
+									//rsrwen for rs rw en pin connected to the which port  
+rsrwen|=(1<<rs);			//set rs 			define ------------->rs pin no. 
+  3a:	a8 9a       	sbi	0x15, 0	; 21
+rsrwen&=~(1<<rw);			//clear rw 			define ------------->rw pin no.				
+  3c:	a9 98       	cbi	0x15, 1	; 21
+rsrwen|=(1<<en);			//set en			define ------------->en pin no.
+  3e:	aa 9a       	sbi	0x15, 2	; 21
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  40:	84 ef       	ldi	r24, 0xF4	; 244
+  42:	91 e0       	ldi	r25, 0x01	; 1
+  44:	01 97       	sbiw	r24, 0x01	; 1
+  46:	f1 f7       	brne	.-4      	; 0x44 <__SREG__+0x5>
+_delay_ms(2);
+rsrwen&=~(1<<en);			//EN CLEAR RS MUST BE SET
+  48:	aa 98       	cbi	0x15, 2	; 21
+}
+  4a:	08 95       	ret
+
+0000004c <lcmd>:
+
+void lcmd(unsigned char x)
+{
+data=x;									//define data PORT for data input d0,d1,d2....d7
+  4c:	88 bb       	out	0x18, r24	; 24
+									//rsrwen for rs rw en pin connected to the which port  
+rsrwen&=~(1<<rs); 			//CLEAR rs 			define ------------->rs pin no. 
+  4e:	a8 98       	cbi	0x15, 0	; 21
+rsrwen&=~(1<<rw);			//clear rw 			define ------------->rw pin no.				
+  50:	a9 98       	cbi	0x15, 1	; 21
+rsrwen|=(1<<en);			//set en			define ------------->en pin no.
+  52:	aa 9a       	sbi	0x15, 2	; 21
+  54:	84 ef       	ldi	r24, 0xF4	; 244
+  56:	91 e0       	ldi	r25, 0x01	; 1
+  58:	01 97       	sbiw	r24, 0x01	; 1
+  5a:	f1 f7       	brne	.-4      	; 0x58 <lcmd+0xc>
+_delay_ms(2);
+rsrwen&=~((1<<rs)|(1<<rw)|(1<<en));
+  5c:	85 b3       	in	r24, 0x15	; 21
+  5e:	88 7f       	andi	r24, 0xF8	; 248
+  60:	85 bb       	out	0x15, r24	; 21
+}/*
+  62:	08 95       	ret
+
+00000064 <main>:
+void ldata(unsigned char);
+void lcmd(unsigned char);
+void lstr(unsigned char*);
+void li2s(long int);
+void main()
+{DDRD=0XFF;
+  64:	8f ef       	ldi	r24, 0xFF	; 255
+  66:	81 bb       	out	0x11, r24	; 17
+DDRC=0xff;
+  68:	84 bb       	out	0x14, r24	; 20
+DDRB=0xff;
+  6a:	87 bb       	out	0x17, r24	; 23
+lcmd(0x38);
+  6c:	88 e3       	ldi	r24, 0x38	; 56
+  6e:	ee df       	rcall	.-36     	; 0x4c <lcmd>
+lcmd(0x06);
+  70:	86 e0       	ldi	r24, 0x06	; 6
+  72:	ec df       	rcall	.-40     	; 0x4c <lcmd>
+lcmd(0x01);
+  74:	81 e0       	ldi	r24, 0x01	; 1
+  76:	ea df       	rcall	.-44     	; 0x4c <lcmd>
+lcmd(0x0e);
+  78:	8e e0       	ldi	r24, 0x0E	; 14
+  7a:	e8 df       	rcall	.-48     	; 0x4c <lcmd>
+lcmd(0x80);
+  7c:	80 e8       	ldi	r24, 0x80	; 128
+  7e:	e6 df       	rcall	.-52     	; 0x4c <lcmd>
+ldata('O');
+  80:	8f e4       	ldi	r24, 0x4F	; 79
+  82:	da df       	rcall	.-76     	; 0x38 <ldata>
+ldata('K');
+  84:	8b e4       	ldi	r24, 0x4B	; 75
+  86:	d8 df       	rcall	.-80     	; 0x38 <ldata>
+UCSRB=(1<<RXEN);
+  88:	80 e1       	ldi	r24, 0x10	; 16
+  8a:	8a b9       	out	0x0a, r24	; 10
+UCSRC|=(1<<URSEL);
+  8c:	80 b5       	in	r24, 0x20	; 32
+  8e:	80 68       	ori	r24, 0x80	; 128
+  90:	80 bd       	out	0x20, r24	; 32
+UBRRH=0X00;
+  92:	10 bc       	out	0x20, r1	; 32
+UBRRL=6;
+  94:	86 e0       	ldi	r24, 0x06	; 6
+  96:	89 b9       	out	0x09, r24	; 9
+  98:	80 e1       	ldi	r24, 0x10	; 16
+  9a:	97 e2       	ldi	r25, 0x27	; 39
+  9c:	29 e1       	ldi	r18, 0x19	; 25
+  9e:	30 e0       	ldi	r19, 0x00	; 0
+  a0:	f9 01       	movw	r30, r18
+  a2:	31 97       	sbiw	r30, 0x01	; 1
+  a4:	f1 f7       	brne	.-4      	; 0xa2 <main+0x3e>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  a6:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  a8:	d9 f7       	brne	.-10     	; 0xa0 <main+0x3c>
+
+_delay_ms(1000);
+while(1)
+{
+
+while((UCSRA&(1<<RXC))==0X00);
+  aa:	5f 9b       	sbis	0x0b, 7	; 11
+  ac:	fe cf       	rjmp	.-4      	; 0xaa <main+0x46>
+ldata(UDR);
+  ae:	8c b1       	in	r24, 0x0c	; 12
+  b0:	c3 df       	rcall	.-122    	; 0x38 <ldata>
+UCSRA|=0x80;
+  b2:	5f 9a       	sbi	0x0b, 7	; 11
+  b4:	fa cf       	rjmp	.-12     	; 0xaa <main+0x46>
+
+000000b6 <_exit>:
+  b6:	f8 94       	cli
+
+000000b8 <__stop_program>:
+  b8:	ff cf       	rjmp	.-2      	; 0xb8 <__stop_program>

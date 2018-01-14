@@ -1,0 +1,1 @@
+<AVRWorkspace><IOSettings><CurrentRegisters><WATCHDOG><register register="WDTCR" group="WATCHDOG" display="1" locked="0"/></WATCHDOG></CurrentRegisters></IOSettings><part name="ATmega8"/><Files><File00000 Name="E:\document 11_july_15\BACKUP2\Atmel Studio\ATMEGA8\watchdog_timer\watchdog_timer.c" Position="258 67 1018 486" LineCol="21 0" State="Maximized"/></Files></AVRWorkspace>
